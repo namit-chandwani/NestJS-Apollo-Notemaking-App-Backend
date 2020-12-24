@@ -1,14 +1,26 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { NoteType } from './note.type';
+import { NoteService } from './note.service';
 
 @Resolver((of) => NoteType)
 export class NoteResolver {
+  constructor(private noteService: NoteService) {}
+
+  @Query((returns) => [NoteType])
+  notes() {
+    return this.noteService.getNotes();
+  }
+
   @Query((returns) => NoteType)
-  note() {
-    return {
-      _id: '1234',
-      title: 'First Note',
-      description: 'trial',
-    };
+  note(@Args('id') id: string) {
+    return this.noteService.getNote(id);
+  }
+
+  @Mutation((returns) => NoteType)
+  createNote(
+    @Args('title') title: string,
+    @Args('description') description: string,
+  ) {
+    return this.noteService.createNote(title, description);
   }
 }

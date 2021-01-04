@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { CommentType } from './../comment/comment.type';
 
 @ObjectType('Note')
 export class NoteType {
@@ -10,4 +11,7 @@ export class NoteType {
 
   @Field()
   description: string;
+
+  @Field((type) => [CommentType])
+  comments: string[];
 }

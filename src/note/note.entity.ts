@@ -13,4 +13,7 @@ export class Note {
 
   @Column()
   description: string;
+
+  @Column()
+  comments: string[];
 }
